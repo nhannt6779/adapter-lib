@@ -2,6 +2,7 @@ const async = require('async');
 const request = require('superagent');
 require('superagent-retry-delay')(request);
 global.fetch = require('node-fetch');
+const stringifyObject = require('stringify-object');
 
 function graphqlClient(veritoneApiUrl, token, logger, payload) {
     const maxRetry = 5;
