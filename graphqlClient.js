@@ -39,7 +39,7 @@ function graphqlClient(veritoneApiUrl, token, logger, payload) {
 			mutation {
 				updateSource(input: {
 					id: "${source.id}",
-						details: ${details},
+						details: ${source.details},
 						state:{
 							lastProcessedDateTime: ${source.state.lastProcessedDateTime}
 						}
