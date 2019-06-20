@@ -1,0 +1,26 @@
+{
+  "name": "adapter-nodejs-lib",
+  "version": "1.0.0",
+  "description": "Connect to GraphQL server, included some method exec to Vertitone GraphQL Server...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veritone/adapter-nodejs-lib.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veritone/adapter-nodejs-lib/issues"
+  },
+  "homepage": "https://github.com/veritone/adapter-nodejs-lib#readme",
+  "dependencies": {
+    "graphql-client": "^2.0.0",
+    "node-fetch": "1.7.3",
+    "superagent": "3.8.2",
+    "mime": "^2.3.1"
+  }
+}
