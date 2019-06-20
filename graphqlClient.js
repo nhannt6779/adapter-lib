@@ -35,12 +35,15 @@ function graphqlClient(veritoneApiUrl, token, logger, payload) {
 
     async function updateSource(source) {
         return new Promise(async (resolve, reject) => {
-            
+            const details = stringifyObject(source.details, {
+				indent: '  ',
+				singleQuotes: false
+			});
 		const query = `
 			mutation {
 				updateSource(input: {
 					id: "${source.id}",
-						details: ${source.details},
+						details: ${details},
 						state:{
 							lastProcessedDateTime: ${source.state.lastProcessedDateTime}
 						}
