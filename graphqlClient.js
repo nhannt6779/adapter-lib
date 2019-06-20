@@ -34,15 +34,24 @@ function graphqlClient(veritoneApiUrl, token, logger, payload) {
 
     async function updateSource(source) {
         return new Promise(async (resolve, reject) => {
-            const query = `
-            mutation {
-                updateSource(input: {
-                    id: "${source.id}",
-                    details: {
-                        url: "${source.details.url}",
-                    }
-                }) { id }
-            }`;
+            const details = stringifyObject(source.details, {
+				indent: '  ',
+				singleQuotes: false
+			});
+
+			const query = `
+				mutation {
+					updateSource(input: {
+						id: "${source.id}",
+							details: ${details},
+							state:{
+								lastProcessedDateTime: ${source.state.lastProcessedDateTime}
+							}
+							}){
+								id
+						}
+					}
+			`;
             try {
                 await executeQueryRetry(query, 'Update source');
                 return resolve();
