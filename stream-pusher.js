@@ -105,8 +105,7 @@ module.exports = function (heart,
         }); // Promise
     }
 
-    var rejectKafkaEnd;
-    async function push(xStreamChunk) {
+    async function push(xStreamChunk, callback) {
         heart.increaseBytesRead(xStreamChunk.length);
 
         kafkaProducer.send([{
@@ -117,10 +116,11 @@ module.exports = function (heart,
         }], async (err) => {
             if (err) {
                 logger.errorOccurred(`Error raw stream`, err, heart.jobId, heart.taskId);
-                return rejectKafkaEnd(err);
+                return callback(err);
             }
             heart.increaseBytesWritten(xStreamChunk.length);
             heart.increaseMessagesWritten();
+            callback();
             // logger.debug("Bytes read:  : " + heart.getBytesRead() + ", written: " + heart.getBytesWritten());
         });  // kafkaProducer.send()
     }
