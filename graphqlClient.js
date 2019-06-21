@@ -1,9 +1,9 @@
-const async = require('async');
 const request = require('superagent');
 require('superagent-retry-delay')(request);
 global.fetch = require('node-fetch');
 const stringifyObject = require('stringify-object');
 
+const jobLimitDefault = 100;
 function graphqlClient(veritoneApiUrl, token, logger, payload) {
     const maxRetry = 5;
 
@@ -39,19 +39,19 @@ function graphqlClient(veritoneApiUrl, token, logger, payload) {
 				indent: '  ',
 				singleQuotes: false
 			});
-		const query = `
-			mutation {
-				updateSource(input: {
-					id: "${source.id}",
-						details: ${details},
-						state:{
-							lastProcessedDateTime: ${source.state.lastProcessedDateTime}
-						}
-						}){
-							id
-					}
-				}
-		`;
+            const query = `
+                mutation {
+                    updateSource(input: {
+                        id: "${source.id}",
+                            details: ${details},
+                            state:{
+                                lastProcessedDateTime: ${source.state.lastProcessedDateTime}
+                            }
+                            }){
+                                id
+                        }
+                    }
+            `;
             try {
                 await executeQueryRetry(query, 'Update source');
                 return resolve();
@@ -124,20 +124,28 @@ function graphqlClient(veritoneApiUrl, token, logger, payload) {
         }); // new Promise
     } // getSchedule
 
-    function getSourceJobStatus(sourceId, limit, offset) {
+    function getSourceJobStatus(sourceId, jobLimit, jobOffset, scheduledLimit, scheduledOffset) {
         return new Promise(async (resolve, reject) => {
-            if (!limit) {
-                limit = 1000;
+            if (!jobLimit) {
+                jobLimit = jobLimitDefault;
             }
 
-            if (!offset) {
-                offset = 0;
+            if (!scheduledLimit) {
+                scheduledLimit = 1;
+            }
+
+            if (!scheduledOffset) {
+                scheduledOffset = 0;
+            }
+
+            if (!jobOffset) {
+                jobOffset = 0;
             }
             const query = `
                 query {
-                    scheduledJobs(primarySourceId:"${sourceId}") {
+                    scheduledJobs(primarySourceId:"${sourceId}", limit: ${scheduledLimit}, offset: ${scheduledOffset}) {
                         records{
-                            jobs(limit: ${limit}, offset: ${offset}){
+                            jobs(limit: ${jobLimit}, offset: ${jobOffset}){
                                 records{
                                     id
                                     tasks(status:[complete, running, queued]){

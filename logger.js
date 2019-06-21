@@ -1,3 +1,7 @@
+/**
+ * Copyright Veritone Corporation 2018. All rights reserved.
+ **/
+
 module.exports = function(debugEnabled) {
   function info(msg, jobId, taskId) {
     customLog('INFO', msg, jobId, taskId);
@@ -27,7 +31,7 @@ module.exports = function(debugEnabled) {
   }
 
   function customLog(lvl, msg, jobId, taskId) {
-    console.log(`"level": "${lvl.toUpperCase()}": "taskID": "${taskId}", "jobID": "${jobId}", "${msg}"`);
+    console.log(`"level": "${lvl.toUpperCase()}": "taskID": "${taskId}", "jobID": "${jobId}",`, msg);
   }
 
   return {

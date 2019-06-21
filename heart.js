@@ -1,8 +1,13 @@
+/**
+ * Copyright Veritone Corporation 2018. All rights reserved.
+ **/
+
 const moment = require('moment');
 
 const engineHeartbeatType = 'engine_heartbeat';
 
-module.exports = function (logger,
+module.exports = function (client, 
+						   logger,
                            kafkaProducer,
                            kafkaHeartbeatTopic,
                            engineId,
@@ -60,17 +65,22 @@ module.exports = function (logger,
 		failureMessage = fMessage;
 		errorMsg = fMessage;
 		clearInterval(timer);
-		return new Promise(async (resolve, reject) => {
-			status = 'FAILED';
-			try {
-				await doHeartBeat();
-				logger.info(`Stop heartbeat`, jobId, taskId);
-				return resolve();
-			} catch (e) {
-				logger.error(e, jobId, taskId);
-				return reject(e);
-			}
-		});
+		status = 'FAILED';
+		try {
+			logger.info('Job failed');
+			await doHeartBeat();
+			logger.info(`Stop heartbeat`, jobId, taskId);
+			client.close(() => {
+				logger.info('Kafka stopped');
+				process.exit(1);
+			});
+		} catch (e) {
+			logger.error(e, jobId, taskId);
+			client.close(() => {
+				logger.info('Kafka stopped');
+				process.exit(1);
+			});
+		}
 	}
 
 	function createPeriodicSending() {

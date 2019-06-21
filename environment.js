@@ -1,3 +1,7 @@
+/**
+ * Copyright Veritone Corporation 2018. All rights reserved.
+ **/
+
 module.exports = function() {
   const kafkaBrokers = process.env.KAFKA_BROKERS;
   const veritoneApiBaseUrl = process.env.VERITONE_API_BASE_URL;

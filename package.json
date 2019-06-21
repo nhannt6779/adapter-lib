@@ -21,7 +21,8 @@
     "graphql-client": "^2.0.0",
     "node-fetch": "1.7.3",
     "superagent": "3.8.2",
-    "stringify-object": "^3.3.0",
-    "mime": "^2.3.1"
+    "mime": "^2.3.1",
+    "superagent-retry-delay": "^2.3.0",
+    "stringify-object": "3.3.0"
   }
 }

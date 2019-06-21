@@ -1,3 +1,7 @@
+/**
+ * Copyright Veritone Corporation 2018. All rights reserved.
+ **/
+
 const moment = require("moment");
 module.exports = function (logger,
                            kafkaProducer,
