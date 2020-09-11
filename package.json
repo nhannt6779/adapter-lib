@@ -19,7 +19,7 @@
   "homepage": "https://github.com/veritone/adapter-nodejs-lib#readme",
   "dependencies": {
     "graphql-client": "^2.0.0",
-    "node-fetch": "1.7.3",
+    "node-fetch": "2.6.1",
     "superagent": "3.8.2",
     "mime": "^2.3.1",
     "superagent-retry-delay": "^2.3.0",
